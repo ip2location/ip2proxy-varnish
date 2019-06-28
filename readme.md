@@ -3,7 +3,7 @@
 | | |
 |-|-|
 | Author:         | IP2Location |
-| Date:           | 2019-06-21  |
+| Date:           | 2019-06-28  |
 | Version:        | 1.0.0       |
 | Manual section: | 3           |
 
