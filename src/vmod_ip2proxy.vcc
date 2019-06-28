@@ -1,0 +1,30 @@
+$Module ip2proxy 3 "Geolocate the data"
+
+$ABI vrt
+
+$Function VOID init_db(PRIV_VCL, STRING, STRING)
+
+$Function STRING country_short(PRIV_VCL, STRING)
+
+$Function STRING country_long(PRIV_VCL, STRING)
+
+$Function STRING region(PRIV_VCL, STRING)
+
+$Function STRING city(PRIV_VCL, STRING)
+
+$Function STRING isp(PRIV_VCL, STRING)
+
+$Function STRING domain(PRIV_VCL, STRING)
+
+$Function STRING usage_type(PRIV_VCL, STRING)
+
+$Function STRING proxy_type(PRIV_VCL, STRING)
+
+$Function STRING asn(PRIV_VCL, STRING)
+
+$Function STRING as(PRIV_VCL, STRING)
+
+$Function STRING last_seen(PRIV_VCL, STRING)
+
+$Function STRING is_proxy(PRIV_VCL, STRING)
+
