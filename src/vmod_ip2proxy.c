@@ -175,99 +175,24 @@ query_all(VRT_CTX, struct VPFX(priv) *priv, char * ip, int option)
     return WS_Copy(ctx->ws, "-", -1);
 }
 
-VCL_STRING
-VPFX(country_short)(VRT_CTX, struct VPFX(priv) *priv, char * ip)
-{
-	const char *result = NULL;
-	result = query_all(ctx, priv, ip, query_COUNTRY_SHORT);
-	return (result);
+#define FUNC(lc, uc)						\
+VCL_STRING							\
+vmod_ ## lc(VRT_CTX, struct vmod_priv *priv, char * ip)		\
+{								\
+	const char *result = NULL;				\
+	result = query_all(ctx, priv, ip, query_ ## uc);	\
+	return (result);					\
 }
 
-VCL_STRING
-VPFX(country_long)(VRT_CTX, struct VPFX(priv) *priv, char * ip)
-{
-	const char *result = NULL;
-	result = query_all(ctx, priv, ip, query_COUNTRY_LONG);
-	return (result);
-}
-
-VCL_STRING
-VPFX(region)(VRT_CTX, struct VPFX(priv) *priv, char * ip)
-{
-	const char *result = NULL;
-	result = query_all(ctx, priv, ip, query_REGION);
-	return (result);
-}
-
-VCL_STRING
-VPFX(city)(VRT_CTX, struct VPFX(priv) *priv, char * ip)
-{
-	const char *result = NULL;
-	result = query_all(ctx, priv, ip, query_CITY);
-	return (result);
-}
-
-VCL_STRING
-VPFX(isp)(VRT_CTX, struct VPFX(priv) *priv, char * ip)
-{
-	const char *result = NULL;
-	result = query_all(ctx, priv, ip, query_ISP);
-	return (result);
-}
-
-VCL_STRING
-VPFX(domain)(VRT_CTX, struct VPFX(priv) *priv, char * ip)
-{
-	const char *result = NULL;
-	result = query_all(ctx, priv, ip, query_DOMAIN);
-	return (result);
-}
-
-VCL_STRING
-VPFX(usage_type)(VRT_CTX, struct VPFX(priv) *priv, char * ip)
-{
-	const char *result = NULL;
-	result = query_all(ctx, priv, ip, query_USAGETYPE);
-	return (result);
-}
-
-VCL_STRING
-VPFX(proxy_type)(VRT_CTX, struct VPFX(priv) *priv, char * ip)
-{
-	const char *result = NULL;
-	result = query_all(ctx, priv, ip, query_PROXYTYPE);
-	return (result);
-}
-
-VCL_STRING
-VPFX(asn)(VRT_CTX, struct VPFX(priv) *priv, char * ip)
-{
-	const char *result = NULL;
-	result = query_all(ctx, priv, ip, query_ASN);
-	return (result);
-}
-
-VCL_STRING
-VPFX(as)(VRT_CTX, struct VPFX(priv) *priv, char * ip)
-{
-	const char *result = NULL;
-	result = query_all(ctx, priv, ip, query_AS);
-	return (result);
-}
-
-VCL_STRING
-VPFX(last_seen)(VRT_CTX, struct VPFX(priv) *priv, char * ip)
-{
-	const char *result = NULL;
-	result = query_all(ctx, priv, ip, query_LASTSEEN);
-	return (result);
-}
-
-VCL_STRING
-VPFX(is_proxy)(VRT_CTX, struct VPFX(priv) *priv, char * ip)
-{
-	const char *result = NULL;
-	result = query_all(ctx, priv, ip, query_ISPROXY);
-	return (result);
-}
-
+FUNC(country_short, COUNTRY_SHORT)
+FUNC(country_long, COUNTRY_LONG)
+FUNC(region, REGION)
+FUNC(city, CITY)
+FUNC(isp, ISP)
+FUNC(domain, DOMAIN)
+FUNC(usage_type, USAGETYPE)
+FUNC(proxy_type, PROXYTYPE)
+FUNC(asn, ASN)
+FUNC(as, AS)
+FUNC(last_seen, LASTSEEN)
+FUNC(is_proxy, ISPROXY)
