@@ -41,7 +41,10 @@ vmod_init_db(VRT_CTX, struct vmod_priv *priv, char *filename, char *memtype)
 		IP2Proxy_close((IP2Proxy *)priv->priv);
 
 	IP2ProxyObj = IP2Proxy_open(filename);
-	AN(IP2ProxyObj);
+	if (!IP2ProxyObj) {
+		VRT_fail(ctx, "IP2Proxy: can't open database (%s)", filename);
+		return;
+	}
 
 	if (strcmp(memtype, "IP2PROXY_FILE_IO") == 0)
 		IP2Proxy_open_mem(IP2ProxyObj, IP2PROXY_FILE_IO);
