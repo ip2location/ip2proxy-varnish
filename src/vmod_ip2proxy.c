@@ -32,22 +32,25 @@ ip2proxy_free(void *ptr)
 VCL_VOID
 vmod_init_db(VRT_CTX, struct vmod_priv *priv, char *filename, char *memtype)
 {
+	IP2Proxy *IP2ProxyObj;
 
 	CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
-	printf("The filename accepted is %s.\n", (char *) filename);	
-	if (priv->priv != NULL) {
-		IP2Proxy_close(priv->priv);
-	}
-	IP2Proxy *IP2ProxyObj = IP2Proxy_open( (char *) filename);
-	if (strcmp(memtype, "IP2PROXY_FILE_IO") == 0) {
-		IP2Proxy_open_mem(priv->priv, IP2PROXY_FILE_IO);
-	} else if (strcmp(memtype, "IP2PROXY_SHARED_MEMORY") == 0) {
-		IP2Proxy_open_mem(priv->priv, IP2PROXY_SHARED_MEMORY);
-	} else if (strcmp(memtype, "IP2PROXY_CACHE_MEMORY") == 0) {
-		IP2Proxy_open_mem(priv->priv, IP2PROXY_CACHE_MEMORY);
-	}
+	AN(priv);
+
+	if (priv->priv != NULL)
+		IP2Proxy_close((IP2Proxy *)priv->priv);
+
+	IP2ProxyObj = IP2Proxy_open(filename);
+	AN(IP2ProxyObj);
+
+	if (strcmp(memtype, "IP2PROXY_FILE_IO") == 0)
+		IP2Proxy_open_mem(IP2ProxyObj, IP2PROXY_FILE_IO);
+	else if (strcmp(memtype, "IP2PROXY_SHARED_MEMORY") == 0)
+		IP2Proxy_open_mem(IP2ProxyObj, IP2PROXY_SHARED_MEMORY);
+	else if (strcmp(memtype, "IP2PROXY_CACHE_MEMORY") == 0)
+		IP2Proxy_open_mem(IP2ProxyObj, IP2PROXY_CACHE_MEMORY);
+
 	priv->priv = IP2ProxyObj;
-	AN(priv->priv);
 	priv->free = ip2proxy_free;
 }
 
@@ -57,15 +60,20 @@ vmod_ ## lower(VRT_CTX, struct vmod_priv *priv, char * ip)	\
 {								\
 	char *result;						\
 	IP2ProxyRecord *r;					\
+								\
 	CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);			\
 	AN(priv);						\
+								\
 	if (!ip || !priv->priv)					\
 		return ("-");					\
+								\
 	r = IP2Proxy_get_all((IP2Proxy *)priv->priv, ip);	\
 	if (!r)							\
 		return ("-");					\
+								\
 	result = WS_Copy(ctx->ws, r->field, -1);		\
 	IP2Proxy_free_record(r);				\
+								\
 	return (result);					\
 }
 
