@@ -148,7 +148,7 @@ query_all(VRT_CTX, struct VPFX(priv) *priv, char * ip, int option)
 					result = WS_Copy(ctx->ws, r->is_proxy, -1);
 					break;
 				default:
-					result = WS_Copy(ctx->ws, "-", -1);
+					result = "-";
 					break;
 			}
             IP2Proxy_free_record(r);
@@ -157,7 +157,7 @@ query_all(VRT_CTX, struct VPFX(priv) *priv, char * ip, int option)
         }
     }
 
-    return WS_Copy(ctx->ws, "-", -1);
+    return ("-");
 }
 
 #define FUNC(lc, uc)						\
