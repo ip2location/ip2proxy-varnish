@@ -179,9 +179,7 @@ query_all(VRT_CTX, struct VPFX(priv) *priv, char * ip, int option)
 VCL_STRING							\
 vmod_ ## lc(VRT_CTX, struct vmod_priv *priv, char * ip)		\
 {								\
-	const char *result = NULL;				\
-	result = query_all(ctx, priv, ip, query_ ## uc);	\
-	return (result);					\
+	return (query_all(ctx, priv, ip, query_ ## uc));	\
 }
 
 FUNC(country_short, COUNTRY_SHORT)
