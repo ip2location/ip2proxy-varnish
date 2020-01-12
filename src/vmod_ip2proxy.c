@@ -105,59 +105,59 @@ query_all(VRT_CTX, struct VPFX(priv) *priv, char * ip, int option)
 	
 	CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
 
-    if (priv->priv != NULL) {
-		handle = priv->priv;
-        r = IP2Proxy_get_all(handle, ip);
+	if (priv->priv == NULL)
+		return ("-");
 
-        if (r != NULL) {
-			switch (option) {
-				case query_COUNTRY_SHORT:
-					result = WS_Copy(ctx->ws, r->country_short, -1);
-					break;
-				case query_COUNTRY_LONG:
-					result = WS_Copy(ctx->ws, r->country_long, -1);
-					break;
-				case query_REGION:
-					result = WS_Copy(ctx->ws, r->region, -1);
-					break;
-				case query_CITY:
-					result = WS_Copy(ctx->ws, r->city, -1);
-					break;
-				case query_ISP:
-					result = WS_Copy(ctx->ws, r->isp, -1);
-					break;
-				case query_DOMAIN:
-					result = WS_Copy(ctx->ws, r->domain, -1);
-					break;
-				case query_USAGETYPE:
-					result = WS_Copy(ctx->ws, r->usage_type, -1);
-					break;
-				case query_PROXYTYPE:
-					result = WS_Copy(ctx->ws, r->proxy_type, -1);
-					break;
-				case query_ASN:
-					result = WS_Copy(ctx->ws, r->asn, -1);
-					break;
-				case query_AS:
-					result = WS_Copy(ctx->ws, r->as_, -1);
-					break;
-				case query_LASTSEEN:
-					result = WS_Copy(ctx->ws, r->last_seen, -1);
-					break;
-				case query_ISPROXY:
-					result = WS_Copy(ctx->ws, r->is_proxy, -1);
-					break;
-				default:
-					result = "-";
-					break;
-			}
-            IP2Proxy_free_record(r);
+	handle = priv->priv;
+	r = IP2Proxy_get_all(handle, ip);
 
-            return (result);
-        }
-    }
+	if (r == NULL)
+		return ("-");
 
-    return ("-");
+	switch (option) {
+		case query_COUNTRY_SHORT:
+			result = WS_Copy(ctx->ws, r->country_short, -1);
+			break;
+		case query_COUNTRY_LONG:
+			result = WS_Copy(ctx->ws, r->country_long, -1);
+			break;
+		case query_REGION:
+			result = WS_Copy(ctx->ws, r->region, -1);
+			break;
+		case query_CITY:
+			result = WS_Copy(ctx->ws, r->city, -1);
+			break;
+		case query_ISP:
+			result = WS_Copy(ctx->ws, r->isp, -1);
+			break;
+		case query_DOMAIN:
+			result = WS_Copy(ctx->ws, r->domain, -1);
+			break;
+		case query_USAGETYPE:
+			result = WS_Copy(ctx->ws, r->usage_type, -1);
+			break;
+		case query_PROXYTYPE:
+			result = WS_Copy(ctx->ws, r->proxy_type, -1);
+			break;
+		case query_ASN:
+			result = WS_Copy(ctx->ws, r->asn, -1);
+			break;
+		case query_AS:
+			result = WS_Copy(ctx->ws, r->as_, -1);
+			break;
+		case query_LASTSEEN:
+			result = WS_Copy(ctx->ws, r->last_seen, -1);
+			break;
+		case query_ISPROXY:
+			result = WS_Copy(ctx->ws, r->is_proxy, -1);
+			break;
+		default:
+			result = "-";
+			break;
+	}
+	IP2Proxy_free_record(r);
+
+	return (result);
 }
 
 #define FUNC(lc, uc)						\
