@@ -107,16 +107,14 @@ query_all(VRT_CTX, struct VPFX(priv) *priv, char * ip, int option)
     IP2Proxy *handle;
     char *result = NULL;
 	
-	char *ip1 = (char *) ip;
-	
-	printf("The IP address accepted is %s.\n", ip1);
+	printf("The IP address accepted is %s.\n", ip);
 	// printf("The option accepted is %i.\n", option);
 	
 	CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
 
     if (priv->priv != NULL) {
 		handle = priv->priv;
-        r = IP2Proxy_get_all(handle, ip1);
+        r = IP2Proxy_get_all(handle, ip);
 
         if (r != NULL) {
 			// printf ("Result is not null.");
