@@ -23,7 +23,7 @@
 
 #include "cache/cache.h"
 
-void
+static void
 ip2proxy_free(void *ptr)
 {
 	IP2Proxy_close((IP2Proxy *)ptr);
