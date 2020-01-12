@@ -33,9 +33,22 @@ VCL_VOID
 vmod_init_db(VRT_CTX, struct vmod_priv *priv, char *filename, char *memtype)
 {
 	IP2Proxy *IP2ProxyObj;
+	enum IP2Proxy_mem_type mtype;
 
 	CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
 	AN(priv);
+	AN(memtype);
+
+	if (strcmp(memtype, "IP2PROXY_FILE_IO") == 0)
+		mtype = IP2PROXY_FILE_IO;
+	else if (strcmp(memtype, "IP2PROXY_SHARED_MEMORY") == 0)
+		mtype = IP2PROXY_SHARED_MEMORY;
+	else if (strcmp(memtype, "IP2PROXY_CACHE_MEMORY") == 0)
+		mtype = IP2PROXY_CACHE_MEMORY;
+	else {
+		VRT_fail(ctx, "IP2Proxy: invalid memtype (%s)", memtype);
+		return;
+	}
 
 	if (priv->priv != NULL)
 		IP2Proxy_close((IP2Proxy *)priv->priv);
@@ -45,13 +58,7 @@ vmod_init_db(VRT_CTX, struct vmod_priv *priv, char *filename, char *memtype)
 		VRT_fail(ctx, "IP2Proxy: can't open database (%s)", filename);
 		return;
 	}
-
-	if (strcmp(memtype, "IP2PROXY_FILE_IO") == 0)
-		IP2Proxy_open_mem(IP2ProxyObj, IP2PROXY_FILE_IO);
-	else if (strcmp(memtype, "IP2PROXY_SHARED_MEMORY") == 0)
-		IP2Proxy_open_mem(IP2ProxyObj, IP2PROXY_SHARED_MEMORY);
-	else if (strcmp(memtype, "IP2PROXY_CACHE_MEMORY") == 0)
-		IP2Proxy_open_mem(IP2ProxyObj, IP2PROXY_CACHE_MEMORY);
+	IP2Proxy_open_mem(IP2ProxyObj, mtype);
 
 	priv->priv = IP2ProxyObj;
 	priv->free = ip2proxy_free;
