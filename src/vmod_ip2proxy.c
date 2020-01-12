@@ -27,16 +27,6 @@
 
 #include "cache/cache.h"
 
-/* Varnish < 6.2 compat */
-#ifndef VPFX
-#  define VPFX(a) vmod_ ## a
-#  define VARGS(a) vmod_ ## a ## _arg
-#  define VENUM(a) vmod_enum_ ## a
-#  define VEVENT(a) a
-#else
-#  define VEVENT(a) VPFX(a)
-#endif
-
 #ifndef VRT_H_INCLUDED
 #include "vrt.h"
 #endif
@@ -58,7 +48,7 @@ ip2proxy_free(void *d)
 }
 
 VCL_VOID
-VPFX(init_db)(VRT_CTX, struct VPFX(priv) *priv, char *filename, char *memtype)
+vmod_init_db(VRT_CTX, struct vmod_priv *priv, char *filename, char *memtype)
 {
 
 	CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
