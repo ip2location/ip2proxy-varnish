@@ -23,20 +23,10 @@
 
 #include "cache/cache.h"
 
-typedef struct vmod_ip2proxy_data {
-  time_t		ip2proxy_db_ts;     /* timestamp of the database file */
-  IP2Proxy		*ip2proxy_handle;
-  pthread_mutex_t	lock;
-} ip2proxy_data_t;
-
 void
-ip2proxy_free(void *d)
+ip2proxy_free(void *ptr)
 {
-  ip2proxy_data_t *data = d;
-
-    if (data->ip2proxy_handle != NULL) {
-        IP2Proxy_close(data->ip2proxy_handle);
-    }
+	IP2Proxy_close((IP2Proxy *)ptr);
 }
 
 VCL_VOID
