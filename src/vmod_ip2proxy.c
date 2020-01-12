@@ -77,16 +77,10 @@ VPFX(init_db)(VRT_CTX, struct VPFX(priv) *priv, char *filename, char *memtype)
 
 	CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
 	printf("The filename accepted is %s.\n", (char *) filename);	
-	// printf("The memtype accepted is %s.\n", (char *) memtype);
 	if (priv->priv != NULL) {
 		IP2Proxy_close(priv->priv);
 	}
 	IP2Proxy *IP2ProxyObj = IP2Proxy_open( (char *) filename);
-	// if (IP2ProxyObj != NULL) {
-		// printf ("Can open the database.");
-	// } else {
-		// printf ("Cannot open the database. NULL value detected.");
-	// }
 	if (strcmp(memtype, "IP2PROXY_FILE_IO") == 0) {
 		IP2Proxy_open_mem(priv->priv, IP2PROXY_FILE_IO);
 	} else if (strcmp(memtype, "IP2PROXY_SHARED_MEMORY") == 0) {
@@ -108,7 +102,6 @@ query_all(VRT_CTX, struct VPFX(priv) *priv, char * ip, int option)
     char *result = NULL;
 	
 	printf("The IP address accepted is %s.\n", ip);
-	// printf("The option accepted is %i.\n", option);
 	
 	CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
 
@@ -117,11 +110,9 @@ query_all(VRT_CTX, struct VPFX(priv) *priv, char * ip, int option)
         r = IP2Proxy_get_all(handle, ip);
 
         if (r != NULL) {
-			// printf ("Result is not null.");
 			switch (option) {
 				case query_COUNTRY_SHORT:
 					result = WS_Copy(ctx->ws, r->country_short, -1);
-					// printf ("Calling Country Short.");
 					break;
 				case query_COUNTRY_LONG:
 					result = WS_Copy(ctx->ws, r->country_long, -1);
@@ -163,12 +154,8 @@ query_all(VRT_CTX, struct VPFX(priv) *priv, char * ip, int option)
             IP2Proxy_free_record(r);
 
             return (result);
-        } else {
-			// printf ("Result is null.");
-		}
+        }
     }
-
-    // VMOD_LOG("ERROR: IP2Location database failed to load");
 
     return WS_Copy(ctx->ws, "-", -1);
 }
