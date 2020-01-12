@@ -18,18 +18,10 @@
  */
 #include <stdlib.h>
 #include <string.h>
+
 #include <IP2Proxy.h>
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <pthread.h>
-
 #include "cache/cache.h"
-
-#ifndef VRT_H_INCLUDED
-#include "vrt.h"
-#endif
 
 typedef struct vmod_ip2proxy_data {
   time_t		ip2proxy_db_ts;     /* timestamp of the database file */
