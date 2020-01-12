@@ -41,20 +41,6 @@
 #include "vrt.h"
 #endif
 
-/* Defined options for querying IP2Location data */
-#define query_COUNTRY_SHORT       1
-#define query_COUNTRY_LONG        2
-#define query_REGION              3
-#define query_CITY                4
-#define query_ISP                 5
-#define query_DOMAIN              6
-#define query_USAGETYPE           7
-#define query_PROXYTYPE           8
-#define query_ASN                 9
-#define query_AS                 10
-#define query_LASTSEEN           11
-#define query_ISPROXY            12
-
 typedef struct vmod_ip2proxy_data {
   time_t		ip2proxy_db_ts;     /* timestamp of the database file */
   IP2Proxy		*ip2proxy_handle;
@@ -93,89 +79,33 @@ VPFX(init_db)(VRT_CTX, struct VPFX(priv) *priv, char *filename, char *memtype)
 	priv->free = ip2proxy_free;
 }
 
-// Use this function to query result, and then extract the field based on user selection
-void *
-query_all(VRT_CTX, struct VPFX(priv) *priv, char * ip, int option)
-{
-    IP2ProxyRecord *r;
-    IP2Proxy *handle;
-    char *result = NULL;
-	
-	printf("The IP address accepted is %s.\n", ip);
-	
-	CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
-
-	if (priv->priv == NULL)
-		return ("-");
-
-	handle = priv->priv;
-	r = IP2Proxy_get_all(handle, ip);
-
-	if (r == NULL)
-		return ("-");
-
-	switch (option) {
-		case query_COUNTRY_SHORT:
-			result = WS_Copy(ctx->ws, r->country_short, -1);
-			break;
-		case query_COUNTRY_LONG:
-			result = WS_Copy(ctx->ws, r->country_long, -1);
-			break;
-		case query_REGION:
-			result = WS_Copy(ctx->ws, r->region, -1);
-			break;
-		case query_CITY:
-			result = WS_Copy(ctx->ws, r->city, -1);
-			break;
-		case query_ISP:
-			result = WS_Copy(ctx->ws, r->isp, -1);
-			break;
-		case query_DOMAIN:
-			result = WS_Copy(ctx->ws, r->domain, -1);
-			break;
-		case query_USAGETYPE:
-			result = WS_Copy(ctx->ws, r->usage_type, -1);
-			break;
-		case query_PROXYTYPE:
-			result = WS_Copy(ctx->ws, r->proxy_type, -1);
-			break;
-		case query_ASN:
-			result = WS_Copy(ctx->ws, r->asn, -1);
-			break;
-		case query_AS:
-			result = WS_Copy(ctx->ws, r->as_, -1);
-			break;
-		case query_LASTSEEN:
-			result = WS_Copy(ctx->ws, r->last_seen, -1);
-			break;
-		case query_ISPROXY:
-			result = WS_Copy(ctx->ws, r->is_proxy, -1);
-			break;
-		default:
-			result = "-";
-			break;
-	}
-	IP2Proxy_free_record(r);
-
-	return (result);
-}
-
-#define FUNC(lc, uc)						\
+#define FUNC(lower, field)					\
 VCL_STRING							\
-vmod_ ## lc(VRT_CTX, struct vmod_priv *priv, char * ip)		\
+vmod_ ## lower(VRT_CTX, struct vmod_priv *priv, char * ip)	\
 {								\
-	return (query_all(ctx, priv, ip, query_ ## uc));	\
+	char *result;						\
+	IP2ProxyRecord *r;					\
+	CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);			\
+	AN(priv);						\
+	if (!ip || !priv->priv)					\
+		return ("-");					\
+	r = IP2Proxy_get_all((IP2Proxy *)priv->priv, ip);	\
+	if (!r)							\
+		return ("-");					\
+	result = WS_Copy(ctx->ws, r->field, -1);		\
+	IP2Proxy_free_record(r);				\
+	return (result);					\
 }
 
-FUNC(country_short, COUNTRY_SHORT)
-FUNC(country_long, COUNTRY_LONG)
-FUNC(region, REGION)
-FUNC(city, CITY)
-FUNC(isp, ISP)
-FUNC(domain, DOMAIN)
-FUNC(usage_type, USAGETYPE)
-FUNC(proxy_type, PROXYTYPE)
-FUNC(asn, ASN)
-FUNC(as, AS)
-FUNC(last_seen, LASTSEEN)
-FUNC(is_proxy, ISPROXY)
+FUNC(country_short,  country_short)
+FUNC(country_long,   country_long)
+FUNC(region,         region)
+FUNC(city,           city)
+FUNC(isp,            isp)
+FUNC(domain,         domain)
+FUNC(usage_type,     usage_type)
+FUNC(proxy_type,     proxy_type)
+FUNC(asn,            asn)
+FUNC(as,             as_)
+FUNC(last_seen,      last_seen)
+FUNC(is_proxy,       is_proxy)
