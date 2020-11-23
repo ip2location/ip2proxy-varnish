@@ -28,3 +28,4 @@ $Function STRING last_seen(PRIV_VCL, STRING)
 
 $Function STRING is_proxy(PRIV_VCL, STRING)
 
+$Function STRING threat(PRIV_VCL, STRING)

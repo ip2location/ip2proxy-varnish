@@ -1,5 +1,5 @@
 AC_PREREQ(2.64)
-AC_INIT([libvmod-ip2proxy], [1.0.0], [support@ip2location.com], [libvmod-ip2proxy])
+AC_INIT([libvmod-ip2proxy], [1.2.0], [support@ip2location.com], [libvmod-ip2proxy])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR(src/vmod_ip2proxy.vcc)
 AM_CONFIG_HEADER(config.h)

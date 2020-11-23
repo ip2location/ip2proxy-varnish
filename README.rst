@@ -3,8 +3,8 @@ IP2Proxy Varnish Module
 ---------------------------
 
 :Author: IP2Location
-:Date: 2019-06-21
-:Version: 1.0.0
+:Date: 2020-11-24
+:Version: 1.2.0
 :Manual section: 3
 
 An Varnish module that enables the user to find the country, region,

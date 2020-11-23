@@ -3,8 +3,8 @@
 | | |
 |-|-|
 | Author:         | IP2Location |
-| Date:           | 2020-01-14  |
-| Version:        | 1.1.0       |
+| Date:           | 2020-11-24 |
+| Version:        | 1.2.0    |
 | Manual section: | 3           |
 
 An Varnish module that enables the user to find the country, region, city, ISP and proxy information by IP address. The module reads the proxy information from **IP2Proxy BIN data** file. 
@@ -190,6 +190,18 @@ set req.http.X-Usagetype = ip2proxy.as("client.ip");
 ```c
 set req.http.X-Usagetype = ip2proxy.last_seen("client.ip");
 ```
+
+
+
+### threat
+
+Return security threat reported for this IP.
+
+#### Example
+
+````
+set req.http.X-Threat = ip2proxy.threat("client.ip");
+````
 
 
 
