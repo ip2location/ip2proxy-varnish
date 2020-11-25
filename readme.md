@@ -191,8 +191,6 @@ set req.http.X-Usagetype = ip2proxy.as("client.ip");
 set req.http.X-Usagetype = ip2proxy.last_seen("client.ip");
 ```
 
-
-
 ### threat
 
 Return security threat reported for this IP.
@@ -211,29 +209,31 @@ set req.http.X-Threat = ip2proxy.threat("client.ip");
 
    Answer: You can get free IP2Proxy LITE databases from [https://lite.ip2location.com](https://lite.ip2location.com/), or purchase an IP2Proxy commercial database from <https://www.ip2location.com/database/ip2proxy>.
 
-2.  "I can't install the module. Please help me."
+2. "I can't install the module. Please help me."
 
    Answer: Once again, before you install the package, please make sure that you have installed autoconf, libtool and make packages first. Those packages are necessary to compile and install this module.
 
-3.  "Why am I getting an error message said that Package varnishapi was not found?"
+3. "Why am I getting an error message said that Package varnishapi was not found?"
 
    Answer: In order to use Varnish vmod, you have to install varnishapi package before hand. Please refer to the [Installation](#installation) section first before install this module. 
-   
+
  4. "I am getting error message said that You need rst2man installed to make dist. What should I do?"
 
-​       Answer: If you encounter such message, you can install rst2man by installing python-docutils package than provide rst2man:
+    Answer: If you encounter such message, you can install rst2man by installing python-docutils package than provide rst2man: 
 
-```bash
-apt-get install python-docutils
-```
+    ```
+    apt-get install python-docutils
+    ```
 
  5. "I am getting Permission denied when running autogen.sh.. What should I do?"
 
-​       Answer: You can try to edit the permission for autogen.sh by:
+    Answer: You can try to edit the permission for autogen.sh by:
 
-```bash
-chmod +x autogen.sh
-```
+    ```
+    chmod +x autogen.sh
+    ```
+
+    
 
 # Support
 

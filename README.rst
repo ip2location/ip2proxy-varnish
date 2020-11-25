@@ -3,7 +3,7 @@ IP2Proxy Varnish Module
 ---------------------------
 
 :Author: IP2Location
-:Date: 2020-11-24
+:Date: 202--11-26
 :Version: 1.2.0
 :Manual section: 3
 
