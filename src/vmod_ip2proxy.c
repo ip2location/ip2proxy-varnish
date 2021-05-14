@@ -24,10 +24,16 @@
 #include "cache/cache.h"
 
 static void
-ip2proxy_free(void *ptr)
+ip2proxy_free(VRT_CTX, void *ptr)
 {
 	IP2Proxy_close((IP2Proxy *)ptr);
 }
+
+static const struct vmod_priv_methods ip2p_methods[1] = {{
+	.magic = VMOD_PRIV_METHODS_MAGIC,
+	.type = "vmod_std_ip2proxy",
+	.fini = ip2proxy_free
+}};
 
 VCL_VOID
 vmod_init_db(VRT_CTX, struct vmod_priv *priv, char *filename, char *memtype)
@@ -61,7 +67,7 @@ vmod_init_db(VRT_CTX, struct vmod_priv *priv, char *filename, char *memtype)
 	IP2Proxy_open_mem(IP2ProxyObj, mtype);
 
 	priv->priv = IP2ProxyObj;
-	priv->free = ip2proxy_free;
+	priv->methods = ip2p_methods;
 }
 
 #define FUNC(lower, field)					\
