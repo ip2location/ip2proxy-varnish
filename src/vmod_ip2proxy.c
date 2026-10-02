@@ -32,7 +32,7 @@ ip2proxy_free(VRT_CTX, void *ptr)
 
 static const struct vmod_priv_methods ip2p_methods[1] = {{
 	.magic = VMOD_PRIV_METHODS_MAGIC,
-	.type = "vmod_std_ip2proxy",
+	.type = "vmod_ip2proxy",
 	.fini = ip2proxy_free
 }};
 
