@@ -26,12 +26,13 @@
 static void
 ip2proxy_free(VRT_CTX, void *ptr)
 {
+	CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
 	IP2Proxy_close((IP2Proxy *)ptr);
 }
 
 static const struct vmod_priv_methods ip2p_methods[1] = {{
 	.magic = VMOD_PRIV_METHODS_MAGIC,
-	.type = "vmod_std_ip2proxy",
+	.type = "vmod_ip2proxy",
 	.fini = ip2proxy_free
 }};
 
@@ -56,8 +57,11 @@ vmod_init_db(VRT_CTX, struct vmod_priv *priv, char *filename, char *memtype)
 		return;
 	}
 
-	if (priv->priv != NULL)
+	if (priv->priv != NULL) {
 		IP2Proxy_close((IP2Proxy *)priv->priv);
+		/* Don't leave a dangling handle behind if the open below fails. */
+		priv->priv = NULL;
+	}
 
 	IP2ProxyObj = IP2Proxy_open(filename);
 	if (!IP2ProxyObj) {
