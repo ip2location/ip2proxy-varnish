@@ -1,20 +1,20 @@
-AM_CPPFLAGS = @VMOD_INCLUDES@
+AM_CPPFLAGS = $(VMOD_CFLAGS)
 AM_CFLAGS = -Wall -Wextra -Werror
 
-vmoddir = @VMOD_DIR@
 vmod_LTLIBRARIES = libvmod_ip2proxy.la
 
-libvmod_ip2proxy_la_LDFLAGS = -module -export-dynamic -avoid-version -shared \
-	-lIP2Proxy
+libvmod_ip2proxy_la_LDFLAGS = $(VMOD_LDFLAGS)
+libvmod_ip2proxy_la_LIBADD = -lIP2Proxy
 
 libvmod_ip2proxy_la_SOURCES = \
-	vcc_if.c \
-	vcc_if.h \
 	vmod_ip2proxy.c
 
-vcc_if.c vcc_if.h: @VMODTOOL@ $(top_srcdir)/src/vmod_ip2proxy.vcc
-	@VMODTOOL@ $(top_srcdir)/src/vmod_ip2proxy.vcc
+nodist_libvmod_ip2proxy_la_SOURCES = \
+	vcc_ip2proxy_if.c \
+	vcc_ip2proxy_if.h
 
-EXTRA_DIST = vmod_ip2proxy.vcc $(VMOD_TESTS)
+@BUILD_VMOD_IP2PROXY@
 
-CLEANFILES = $(builddir)/vcc_if.c $(builddir)/vcc_if.h
+EXTRA_DIST = vmod_ip2proxy.vcc
+
+DISTCLEANFILES = vmod_vcs_version.txt
