@@ -9,7 +9,7 @@
 
 An Varnish module that enables the user to find the country, region, city, ISP and proxy information by IP address. The module reads the proxy information from **IP2Proxy BIN data** file. 
 
-This module currently only support Varnish version 6.2.
+This module supports Varnish Cache 6.6 or later and Vinyl Cache 9.1 or later.
 
 Required [IP2Proxy C Library](https://github.com/ip2location/ip2proxy-c) to work.
 
@@ -18,14 +18,15 @@ Required [IP2Proxy C Library](https://github.com/ip2location/ip2proxy-c) to work
 Before install and use this module, you have to install:
 
 - IP2Proxy C Library. You can get IP2Proxy C Library from <https://github.com/ip2location/ip2proxy-c> .
-- varnishapi (varnish-dev) package. install varnishapi package by running this command:
+- The development package for your cache: varnishapi (varnish-dev) for Varnish Cache, or vinylapi (vinyl-cache-dev) for Vinyl Cache. For example:
 
 ```bash
-apt-get install varnish-dev
+apt-get install varnish-dev       # Varnish Cache
+apt-get install vinyl-cache-dev   # Vinyl Cache
 ```
 
 - autoconf, libtool and make. Those packages will be needed during compilation and installation process.
-- And of course, the **Varnish**.
+- And of course, **Varnish Cache** or **Vinyl Cache** itself.
 
 Then, clone this repo into your local, and run following commands to install:
 
@@ -35,6 +36,8 @@ Then, clone this repo into your local, and run following commands to install:
 make
 make install
 ```
+
+If both Varnish Cache and Vinyl Cache are installed, Vinyl Cache is used by default. To build against Varnish Cache instead, run `./configure --with-vcache=varnish`.
 
 # Usage
 
